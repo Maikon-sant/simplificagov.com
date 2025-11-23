@@ -1,0 +1,47 @@
+# Ativar mod_rewrite
+RewriteEngine On
+RewriteBase /
+
+### ============================
+### FORÇAR HTTPS SEM LOOP
+### ============================
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+### ============================
+### Normalizar barra da URL
+### ============================
+RewriteCond %{THE_REQUEST} \s/+{2,}[^ ]*
+RewriteRule ^(.*)$ /$1 [R=301,L]
+
+### ============================
+### Proteger arquivos sensíveis
+### ============================
+<FilesMatch "(^\.env|composer\.json|composer\.lock|env\.php|database\.php|README\.md)">
+    Require all denied
+</FilesMatch>
+
+### ============================
+### IGNORAR ARQUIVOS FÍSICOS
+### ============================
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+### ============================
+### ROTEAMENTO (API REST)
+### Direciona tudo que não for arquivo para index.php
+### ============================
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|eot|pdf|txt|log)$ [NC]
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+### ============================
+### Segurança de Headers
+### ============================
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

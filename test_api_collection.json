@@ -1,0 +1,368 @@
+{
+  "info": {
+    "name": "SimplificaGov API - Test Collection",
+    "description": "Coleção de testes para a API SimplificaGov",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost/projetoSimplificaAi",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cidadao_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "lei_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Registro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    pm.collectionVariables.set('cidadao_id', jsonData.data.cidadao.cidadao_id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Teste Usuario\",\n  \"email\": \"teste{{$timestamp}}@example.com\",\n  \"senha\": \"senha123\",\n  \"contato\": \"teste{{$timestamp}}@example.com\",\n  \"regiao\": \"Sudeste\",\n  \"preferencia_midia\": \"texto\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    pm.collectionVariables.set('cidadao_id', jsonData.data.cidadao.cidadao_id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"teste@example.com\",\n  \"senha\": \"senha123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Me (Dados do usuário)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "refresh"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leis",
+      "item": [
+        {
+          "name": "Listar Leis",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200 && pm.response.json().data.length > 0) {",
+                  "    pm.collectionVariables.set('lei_id', pm.response.json().data[0].pl_id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}", "disabled": true}
+            ],
+            "url": {
+              "raw": "{{base_url}}/leis?limit=10&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["leis"],
+              "query": [
+                {"key": "limit", "value": "10"},
+                {"key": "offset", "value": "0"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Busca Avançada",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leis?busca=educação&ordenar=relevancia_score&direcao=DESC&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["leis"],
+              "query": [
+                {"key": "busca", "value": "educação"},
+                {"key": "ordenar", "value": "relevancia_score"},
+                {"key": "direcao", "value": "DESC"},
+                {"key": "limit", "value": "10"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Detalhes da Lei",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leis/{{lei_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["leis", "{{lei_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Traduzir Lei",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/leis/{{lei_id}}/traduzir",
+              "host": ["{{base_url}}"],
+              "path": ["leis", "{{lei_id}}", "traduzir"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Favoritos",
+      "item": [
+        {
+          "name": "Listar Favoritos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/favoritos",
+              "host": ["{{base_url}}"],
+              "path": ["favoritos"]
+            }
+          }
+        },
+        {
+          "name": "Adicionar Favorito",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/favoritos/{{lei_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["favoritos", "{{lei_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Verificar Favorito",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/favoritos/verificar/{{lei_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["favoritos", "verificar", "{{lei_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Remover Favorito",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/favoritos/{{lei_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["favoritos", "{{lei_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alertas",
+      "item": [
+        {
+          "name": "Listar Alertas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/alertas",
+              "host": ["{{base_url}}"],
+              "path": ["alertas"]
+            }
+          }
+        },
+        {
+          "name": "Criar Alerta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_alerta\": \"tramitacao\",\n  \"titulo\": \"Nova tramitação\",\n  \"descricao\": \"Acompanhar tramitação do PL\",\n  \"pl_id\": {{lei_id}},\n  \"filtros_json\": {\n    \"tema\": \"Educação\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/alertas",
+              "host": ["{{base_url}}"],
+              "path": ["alertas"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preferências de Temas",
+      "item": [
+        {
+          "name": "Listar Preferências",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/preferencias-temas",
+              "host": ["{{base_url}}"],
+              "path": ["preferencias-temas"]
+            }
+          }
+        },
+        {
+          "name": "Adicionar Preferência",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tema\": \"Educação\",\n  \"nivel_interesse\": \"alto\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/preferencias-temas",
+              "host": ["{{base_url}}"],
+              "path": ["preferencias-temas"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Estatísticas",
+      "item": [
+        {
+          "name": "Estatísticas Gerais",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/estatisticas",
+              "host": ["{{base_url}}"],
+              "path": ["estatisticas"]
+            }
+          }
+        },
+        {
+          "name": "Estatísticas de Leis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/estatisticas/leis",
+              "host": ["{{base_url}}"],
+              "path": ["estatisticas", "leis"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+
