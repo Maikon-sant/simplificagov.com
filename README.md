@@ -433,7 +433,7 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 ## Suporte
 
-Para suporte, abra uma issue no GitHub ou entre em contato através do email: suporte@simplificagov.com
+Para suporte, abra uma issue no GitHub ou entre em contato através do email: maikonicaro04@gmail.com
 
 ## Changelog
 
