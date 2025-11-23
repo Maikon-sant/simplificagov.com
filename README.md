@@ -821,7 +821,7 @@ Contribuições são bem-vindas! Por favor:
 
 ## Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+Este projeto está sob a licença MIT. Para mais detalhes, consulte o arquivo [LICENSE](LICENSE).
 
 ## Suporte
 
