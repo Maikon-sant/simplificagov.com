@@ -163,11 +163,258 @@ https://api.simplificagov.com
 
 ### Autenticação
 
-A API utiliza JWT (JSON Web Token). Inclua o token no header:
+A API utiliza JWT (JSON Web Token) para autenticação. O token deve ser incluído no header de todas as requisições que requerem autenticação:
 
 ```
 Authorization: Bearer {seu_token}
 ```
+
+#### Como Funciona a Autenticação
+
+O sistema de autenticação utiliza JWT (JSON Web Token) para garantir segurança e escalabilidade. Abaixo está explicado o fluxo completo:
+
+##### 1. Registro (POST /auth/register)
+
+O processo de registro cria um novo usuário no sistema e retorna um token JWT automaticamente.
+
+**Fluxo:**
+1. Cliente envia dados: `nome`, `email`, `senha` (obrigatórios) e campos opcionais
+2. Sistema valida formato do email
+3. Sistema verifica se o email já está cadastrado (retorna 409 se existir)
+4. Sistema cria hash da senha usando `password_hash()` com algoritmo PASSWORD_DEFAULT
+5. Sistema salva o usuário no banco de dados
+6. Sistema gera token JWT contendo `cidadao_id` e `email`
+7. Sistema retorna dados do usuário e token JWT
+
+**Exemplo de Requisição:**
+```json
+POST /auth/register
+{
+  "nome": "João Silva",
+  "email": "joao@example.com",
+  "senha": "senhaSegura123",
+  "contato": "joao@example.com",
+  "regiao": "Sudeste",
+  "preferencia_midia": "texto"
+}
+```
+
+**Resposta (201):**
+```json
+{
+  "success": true,
+  "message": "Cadastro realizado com sucesso",
+  "data": {
+    "cidadao": {
+      "cidadao_id": 1,
+      "nome": "João Silva",
+      "email": "joao@example.com",
+      ...
+    },
+    "token": "eyJ0eXAiOiJKV1QiLCJh..."
+  }
+}
+```
+
+##### 2. Login (POST /auth/login)
+
+O processo de login autentica um usuário existente e retorna um novo token JWT.
+
+**Fluxo:**
+1. Cliente envia `email` e `senha`
+2. Sistema busca usuário pelo email no banco de dados
+3. Sistema verifica se a senha está correta usando `password_verify()`
+4. Sistema verifica se a conta está ativa
+5. Se tudo estiver correto, sistema gera novo token JWT
+6. Sistema retorna dados do usuário e token JWT
+
+**Exemplo de Requisição:**
+```json
+POST /auth/login
+{
+  "email": "joao@example.com",
+  "senha": "senhaSegura123"
+}
+```
+
+**Resposta (200):**
+```json
+{
+  "success": true,
+  "message": "Login realizado com sucesso",
+  "data": {
+    "cidadao": { ... },
+    "token": "eyJ0eXAiOiJKV1QiLCJh..."
+  }
+}
+```
+
+**Resposta de Erro (401):**
+```json
+{
+  "success": false,
+  "message": "Email ou senha inválidos"
+}
+```
+
+##### 3. Renovação de Token (POST /auth/refresh)
+
+O processo de refresh permite renovar o token JWT sem precisar fazer login novamente.
+
+**Fluxo:**
+1. Cliente envia token atual no header `Authorization: Bearer {token}`
+2. Sistema valida o token usando `AuthMiddleware`
+3. Sistema extrai `cidadao_id` do token
+4. Sistema verifica se o usuário ainda existe e está ativo
+5. Sistema gera novo token JWT com os mesmos dados
+6. Sistema retorna novo token
+
+**Exemplo de Requisição:**
+```
+POST /auth/refresh
+Authorization: Bearer {token_atual}
+```
+
+**Resposta (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "token": "eyJ0eXAiOiJKV1QiLCJh..."
+  }
+}
+```
+
+**Importante:** O token antigo continua válido até expirar. O refresh gera um novo token sem invalidar o anterior.
+
+##### 4. Obter Dados do Usuário (GET /auth/me)
+
+Retorna os dados do usuário autenticado baseado no token JWT.
+
+**Fluxo:**
+1. Cliente envia token no header `Authorization: Bearer {token}`
+2. Sistema valida o token usando `AuthMiddleware`
+3. Sistema extrai `cidadao_id` do token
+4. Sistema busca dados do usuário no banco
+5. Sistema remove campos sensíveis (`senha_hash`, `token_refresh`)
+6. Sistema retorna dados do usuário
+
+**Exemplo de Requisição:**
+```
+GET /auth/me
+Authorization: Bearer {token}
+```
+
+**Resposta (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "cidadao_id": 1,
+    "nome": "João Silva",
+    "email": "joao@example.com",
+    "contato": "joao@example.com",
+    "regiao": "Sudeste",
+    "preferencia_midia": "texto",
+    ...
+  }
+}
+```
+
+#### Estrutura do Token JWT
+
+O token JWT é composto por três partes separadas por ponto (.):
+
+```
+header.payload.signature
+```
+
+**Header:**
+```json
+{
+  "typ": "JWT",
+  "alg": "HS256"
+}
+```
+
+**Payload:**
+```json
+{
+  "cidadao_id": 1,
+  "email": "joao@example.com",
+  "iat": 1700000000,  // Issued at (timestamp)
+  "exp": 1700086400   // Expiration (timestamp - 24 horas)
+}
+```
+
+**Signature:**
+Assinatura HMAC SHA256 gerada com a chave secreta configurada em `JWT_SECRET`.
+
+#### Validação do Token
+
+O sistema valida tokens JWT da seguinte forma:
+
+1. **Verifica estrutura:** Token deve ter 3 partes separadas por ponto
+2. **Verifica assinatura:** Compara assinatura recebida com assinatura calculada
+3. **Verifica expiração:** Verifica se `exp` (expiration) é maior que o timestamp atual
+4. **Extrai payload:** Retorna dados do usuário se tudo estiver válido
+
+#### Segurança
+
+**Hash de Senhas:**
+- Senhas são armazenadas usando `password_hash()` com algoritmo PASSWORD_DEFAULT
+- Verificação é feita com `password_verify()` que é seguro contra timing attacks
+- Senhas nunca são retornadas nas respostas da API
+
+**Tokens JWT:**
+- Tokens expiram em 24 horas por padrão
+- Tokens são assinados com chave secreta (HMAC SHA256)
+- Chave secreta deve ser configurada em `config/env.php` como `JWT_SECRET`
+- Tokens não são armazenados no banco de dados (stateless)
+
+**Validações:**
+- Email é validado com `filter_var()` antes de salvar
+- Sistema verifica duplicidade de email antes de criar usuário
+- Sistema verifica se conta está ativa antes de autenticar
+- Middleware de autenticação valida token em todas as rotas protegidas
+
+#### Fluxo Completo de Autenticação
+
+```
+1. Cliente faz POST /auth/register
+   └─> Sistema cria usuário e retorna token
+
+2. Cliente armazena token (memória, httpOnly cookie, etc)
+
+3. Cliente faz requisições autenticadas:
+   └─> Header: Authorization: Bearer {token}
+   └─> Middleware valida token
+   └─> Se válido: processa requisição
+   └─> Se inválido: retorna 401
+
+4. Quando token está próximo de expirar:
+   └─> Cliente faz POST /auth/refresh
+   └─> Sistema retorna novo token
+   └─> Cliente atualiza token armazenado
+
+5. Se token expirar:
+   └─> Cliente precisa fazer login novamente
+```
+
+#### Boas Práticas
+
+1. **Armazenamento do Token:**
+   - Em produção: Use httpOnly cookies ou memória
+   - Evite localStorage (vulnerável a XSS)
+
+2. **Renovação Proativa:**
+   - Renove o token quando faltar menos de 1 hora para expirar
+   - Implemente retry automático em caso de 401
+
+3. **Tratamento de Erros:**
+   - 401: Token inválido ou expirado - faça login novamente
+   - 403: Conta desativada - entre em contato com suporte
+   - 409: Email já cadastrado - use login ao invés de register
 
 ### Endpoints Principais
 
