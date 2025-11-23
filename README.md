@@ -20,7 +20,7 @@
 - [Testes](#testes)
 - [Segurança](#segurança)
 - [Contribuindo](#contribuindo)
-- [Mebros da Equipe](#membros)
+- [Membros da Equipe](#membros-da-equipe)
 - [Licença](#licença)
 
 
@@ -436,8 +436,7 @@ Contribuições são bem-vindas! Por favor:
 - Escreva testes para novas funcionalidades
 - Atualize a documentação quando necessário
 
-<div id="membros"></div>
-### Membros da Equipe
+## Membros da Equipe
 
 | Nome | Função | GitHub |
 |------|--------|--------|
