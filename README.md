@@ -1,8 +1,40 @@
 # SimplificaGov API
 
-API REST para facilitar o acesso e compreensão de projetos de lei, fornecendo informações estruturadas da Câmara dos Deputados e do Senado Federal, com resumos simplificados e materiais de comunicação utilizando inteligência artificial.
+<div align="center">
+  <img src="public/logo-full.png" alt="Logo SimplificaGov" width="200" />
+  <h1>SimplificaGov</h1>
+  <p>
+    <b>Democratizando o acesso à informação governamental através da simplificação com IA.</b>
+  </p>
+</div>
 
-Acesse nossa API: api.simplificagov.com
+---
+
+## 📖 Descrição do Projeto
+
+O **SimplificaGov** é uma plataforma inovadora que utiliza Inteligência Artificial para traduzir a complexidade dos documentos legislativos e governamentais para uma linguagem simples e acessível a todos os cidadãos.
+
+Nossa missão é combater a desinformação e aumentar o engajamento cívico, permitindo que qualquer pessoa entenda o que está sendo votado e decidido em Brasília, sem precisar decifrar o "juridiquês".
+
+### Principais Funcionalidades:
+- **Tradução de Leis**: Resumos automáticos e simplificados de Projetos de Lei.
+- **Resumo Diário**: Atualizações personalizadas via WhatsApp em texto e áudio.
+- **Simplinho**: Um assistente virtual carismático que tira dúvidas sobre política.
+- **Monitoramento**: Acompanhamento de parlamentares e temas de interesse.
+- **Acessibilidade**: Foco total em UX inclusiva, contraste e navegação simplificada.
+
+---
+
+## Membros da Equipe
+
+| Nome | Função | GitHub |
+|------|--------|--------|
+| **Maysa Santos** | Tech Lead & Fullstack Dev | [@Maysamkt](https://github.com/Maysamkt) |
+| **Rafaela Rocha Feijó** | Product Manager | [@Rafaelafeijo](https://github.com/Rafaelafeijo) |
+| **Maikon Icaro dos Santos** | AI Engineer | [@Maikon-sant](https://github.com/Maikon-sant) |
+| **Jessica Lopes** | Frontend Developer | [@iamdivaloper](https://github.com/iamdivaloper) |
+
+Acesse nossa API: api.simplificagov.com <br>
 Acesse o sistema completo: simplificagov.com
 
 ## Índice
