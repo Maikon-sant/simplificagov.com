@@ -2,7 +2,7 @@
 
 API REST para facilitar o acesso e compreensão de projetos de lei, fornecendo informações estruturadas da Câmara dos Deputados e do Senado Federal, com resumos simplificados e materiais de comunicação utilizando inteligência artificial.
 
-Acesse nossa API: api.simplificagov.com
+Acesse nossa API: api.simplificagov.com \n
 Acesse o sistema completo: simplificagov.com
 
 ## Índice
