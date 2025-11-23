@@ -20,8 +20,9 @@
 - [Testes](#testes)
 - [Segurança](#segurança)
 - [Contribuindo](#contribuindo)
-- [Licença](#licença)
 - [Mebros da Equipe](#membros)
+- [Licença](#licença)
+
 
 ## Visão Geral
 
@@ -435,6 +436,16 @@ Contribuições são bem-vindas! Por favor:
 - Escreva testes para novas funcionalidades
 - Atualize a documentação quando necessário
 
+<div id="membros"></div>
+### Membros da Equipe
+
+| Nome | Função | GitHub |
+|------|--------|--------|
+| **Maysa Santos** | Tech Lead & Fullstack Dev | [@Maysamkt](https://github.com/Maysamkt) |
+| **Rafaela Rocha Feijó** | Product Manager | [@Rafaelafeijo](https://github.com/Rafaelafeijo) |
+| **Maikon Icaro dos Santos** | AI Engineer | [@Maikon-sant](https://github.com/Maikon-sant) |
+| **Jessica Lopes** | Frontend Developer | [@iamdivaloper](https://github.com/iamdivaloper) |
+
 ## Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
@@ -470,13 +481,4 @@ Para suporte, abra uma issue no GitHub ou entre em contato através do email: ma
 **Versão da API:** 1.0.0  
 **Última atualização:** 2025-11-23  
 **Base URL:** `https://api.simplificagov.com/`
-<div id="membros"></div>
-## Membros da Equipe
-
-| Nome | Função | GitHub |
-|------|--------|--------|
-| **Maysa Santos** | Tech Lead & Fullstack Dev | [@Maysamkt](https://github.com/Maysamkt) |
-| **Rafaela Rocha Feijó** | Product Manager | [@Rafaelafeijo](https://github.com/Rafaelafeijo) |
-| **Maikon Icaro dos Santos** | AI Engineer | [@Maikon-sant](https://github.com/Maikon-sant) |
-| **Jessica Lopes** | Frontend Developer | [@iamdivaloper](https://github.com/iamdivaloper) |
 
