@@ -8,33 +8,6 @@
 
 ---
 
-## 📖 Descrição do Projeto
-
-O **SimplificaGov** é uma plataforma inovadora que utiliza Inteligência Artificial para traduzir a complexidade dos documentos legislativos e governamentais para uma linguagem simples e acessível a todos os cidadãos.
-
-Nossa missão é combater a desinformação e aumentar o engajamento cívico, permitindo que qualquer pessoa entenda o que está sendo votado e decidido em Brasília, sem precisar decifrar o "juridiquês".
-
-### Principais Funcionalidades:
-- **Tradução de Leis**: Resumos automáticos e simplificados de Projetos de Lei.
-- **Resumo Diário**: Atualizações personalizadas via WhatsApp em texto e áudio.
-- **Simplinho**: Um assistente virtual carismático que tira dúvidas sobre política.
-- **Monitoramento**: Acompanhamento de parlamentares e temas de interesse.
-- **Acessibilidade**: Foco total em UX inclusiva, contraste e navegação simplificada.
-
----
-
-## Membros da Equipe
-
-| Nome | Função | GitHub |
-|------|--------|--------|
-| **Maysa Santos** | Tech Lead & Fullstack Dev | [@Maysamkt](https://github.com/Maysamkt) |
-| **Rafaela Rocha Feijó** | Product Manager | [@Rafaelafeijo](https://github.com/Rafaelafeijo) |
-| **Maikon Icaro dos Santos** | AI Engineer | [@Maikon-sant](https://github.com/Maikon-sant) |
-| **Jessica Lopes** | Frontend Developer | [@iamdivaloper](https://github.com/iamdivaloper) |
-
-Acesse nossa API: api.simplificagov.com <br>
-Acesse o sistema completo: simplificagov.com
-
 ## Índice
 
 - [Visão Geral](#visão-geral)
@@ -48,6 +21,7 @@ Acesse o sistema completo: simplificagov.com
 - [Segurança](#segurança)
 - [Contribuindo](#contribuindo)
 - [Licença](#licença)
+- [Mebros da Equipe](#membros)
 
 ## Visão Geral
 
@@ -63,6 +37,10 @@ A API SimplificaGov é uma solução completa para democratizar o acesso à info
 - **Preferências de Temas**: Personalização de conteúdo por interesse
 - **Estatísticas**: Dashboards e métricas em tempo real
 - **Integração com IA**: Resumos simplificados e toolkits de comunicação
+
+
+Acesse nossa API: api.simplificagov.com <br>
+Acesse o sistema completo: simplificagov.com
 
 ## Características
 
@@ -492,3 +470,13 @@ Para suporte, abra uma issue no GitHub ou entre em contato através do email: ma
 **Versão da API:** 1.0.0  
 **Última atualização:** 2025-11-23  
 **Base URL:** `https://api.simplificagov.com/`
+<div id="membros"></div>
+## Membros da Equipe
+
+| Nome | Função | GitHub |
+|------|--------|--------|
+| **Maysa Santos** | Tech Lead & Fullstack Dev | [@Maysamkt](https://github.com/Maysamkt) |
+| **Rafaela Rocha Feijó** | Product Manager | [@Rafaelafeijo](https://github.com/Rafaelafeijo) |
+| **Maikon Icaro dos Santos** | AI Engineer | [@Maikon-sant](https://github.com/Maikon-sant) |
+| **Jessica Lopes** | Frontend Developer | [@iamdivaloper](https://github.com/iamdivaloper) |
+
