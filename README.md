@@ -190,11 +190,11 @@ O processo de registro cria um novo usuário no sistema e retorna um token JWT a
 ```json
 POST /auth/register
 {
-  "nome": "João Silva",
-  "email": "joao@example.com",
+      "nome": "João Silva",
+      "email": "joao@example.com",
   "senha": "senhaSegura123",
-  "contato": "joao@example.com",
-  "regiao": "Sudeste",
+      "contato": "joao@example.com",
+      "regiao": "Sudeste",
   "preferencia_midia": "texto"
 }
 ```
@@ -206,9 +206,9 @@ POST /auth/register
   "message": "Cadastro realizado com sucesso",
   "data": {
     "cidadao": {
-      "cidadao_id": 1,
-      "nome": "João Silva",
-      "email": "joao@example.com",
+    "cidadao_id": 1,
+    "nome": "João Silva",
+    "email": "joao@example.com",
       ...
     },
     "token": "eyJ0eXAiOiJKV1QiLCJh..."
@@ -340,7 +340,7 @@ header.payload.signature
 **Payload:**
 ```json
 {
-  "cidadao_id": 1,
+      "cidadao_id": 1,
   "email": "joao@example.com",
   "iat": 1700000000,  // Issued at (timestamp)
   "exp": 1700086400   // Expiration (timestamp - 24 horas)
@@ -597,7 +597,7 @@ https://api.simplificagov.com/test_sistema_completo.php
 
 ### Teste Manual com cURL
 
-   ```bash
+```bash
 # Registrar usuário
 curl -X POST http://localhost/simplificagov/api/auth/register \
   -H "Content-Type: application/json" \
@@ -634,6 +634,133 @@ curl -X GET http://localhost/simplificagov/api/leis \
 6. **Use chaves secretas fortes** para JWT
 
 ## Funcionalidades Avançadas
+
+### Tradução e Simplificação com IA
+
+O sistema utiliza Inteligência Artificial para traduzir e simplificar textos jurídicos complexos, tornando-os acessíveis para cidadãos comuns.
+
+#### Agente de Tradução
+
+O agente responsável pela tradução é o **IAService**, localizado em `services/IAService.php`. Este serviço oferece duas funcionalidades principais:
+
+1. **Resumo Simples** (`gerarResumoSimples`): Traduz textos jurídicos para linguagem simples
+2. **Toolkit Completo** (`gerarToolkitCompleto`): Gera material completo de comunicação
+
+#### Modelo de LLM Utilizado
+
+O sistema utiliza o modelo **GPT-3.5-turbo** da OpenAI através da API oficial.
+
+**Configurações do Modelo:**
+- **Modelo:** `gpt-3.5-turbo`
+- **API Base:** `https://api.openai.com/v1` (configurável via `OPENAI_API_BASE`)
+- **Timeout:** 30 segundos (resumo) / 45 segundos (toolkit)
+
+#### Prompts Utilizados
+
+##### 1. Prompt para Resumo Simples
+
+**System Message:**
+```
+Você é um tradutor especializado em simplificar textos jurídicos para cidadãos comuns, mantendo a precisão legal.
+```
+
+**User Prompt:**
+```
+Traduza o seguinte texto jurídico para linguagem simples e acessível para cidadãos comuns. 
+Mantenha o significado legal, mas use palavras do dia a dia. 
+Seja claro e objetivo. Limite a resposta a no máximo 300 palavras.
+
+Texto jurídico:
+{texto_original}
+```
+
+**Parâmetros:**
+- Temperature: `0.7` (balance entre criatividade e precisão)
+- Max Tokens: `500`
+
+##### 2. Prompt para Toolkit Completo
+
+**System Message:**
+```
+Você é um especialista em comunicação pública e engajamento cívico. Gere sempre JSON válido.
+```
+
+**User Prompt:**
+```
+Com base no seguinte texto de projeto de lei, gere um toolkit completo de comunicação:
+
+Título original: {titulo_original}
+
+Texto: {texto_original}
+
+Gere um JSON com a seguinte estrutura:
+{
+  "titulo": "Título impactante e claro (máx 60 caracteres)",
+  "resumo_curto": "Resumo em 2-3 frases",
+  "card": {
+    "cta": "Chamada para ação (máx 30 caracteres)",
+    "bullets": ["Ponto principal 1", "Ponto principal 2", "Ponto principal 3"]
+  },
+  "roteiro_video": {
+    "gancho": "Pergunta ou frase de impacto para começar (máx 80 caracteres)",
+    "explicacao": "Explicação simples em 2-3 parágrafos",
+    "chamada_acao": "Chamada final para ação (máx 50 caracteres)"
+  }
+}
+
+Retorne APENAS o JSON, sem markdown, sem explicações adicionais.
+```
+
+**Parâmetros:**
+- Temperature: `0.8` (mais criativo para comunicação)
+- Max Tokens: `1000`
+
+#### Fluxo de Tradução
+
+1. **Cliente solicita tradução:** `POST /leis/{id}/traduzir`
+2. **Sistema busca PL:** Verifica se existe e tem `texto_original`
+3. **Geração de Resumo:** Chama `IAService::gerarResumoSimples()`
+4. **Geração de Toolkit:** Chama `IAService::gerarToolkitCompleto()`
+5. **Persistência:** Salva no banco na tabela `traducao_simples`
+6. **Resposta:** Retorna resumo e toolkit para o cliente
+
+#### Tratamento de Erros
+
+O sistema possui fallbacks robustos:
+
+- **Sem API Key:** Retorna stub com texto truncado
+- **Erro na API:** Retorna toolkit padrão com estrutura básica
+- **Erro de Parsing:** Retorna estrutura mínima válida
+- **Timeout:** Loga erro e retorna fallback
+
+#### Estrutura do Toolkit Gerado
+
+```json
+{
+  "titulo": "Título impactante",
+  "resumo_curto": "Resumo em 2-3 frases",
+  "card": {
+    "cta": "Chamada para ação",
+    "bullets": ["Ponto 1", "Ponto 2", "Ponto 3"]
+  },
+  "roteiro_video": {
+    "gancho": "Pergunta de impacto",
+    "explicacao": "Explicação detalhada",
+    "chamada_acao": "Chamada final"
+  }
+}
+```
+
+#### Configuração
+
+Para habilitar a funcionalidade de IA, configure no `config/env.php`:
+
+```php
+define('OPENAI_API_KEY', 'sua_chave_openai');
+define('OPENAI_API_BASE', 'https://api.openai.com/v1'); // Opcional
+```
+
+**Nota:** Sem a chave da API, o sistema funciona em modo stub, retornando respostas básicas sem processamento de IA.
 
 ### Analytics de Parlamentares
 
