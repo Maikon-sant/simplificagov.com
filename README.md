@@ -149,7 +149,7 @@ date_default_timezone_set('America/Sao_Paulo');
 ### Base URL
 
 ```
-https://simplificagov.com/api
+https://api.simplificagov.com
 ```
 
 ### Autenticação
@@ -466,4 +466,4 @@ Para suporte, abra uma issue no GitHub ou entre em contato através do email: su
 
 **Versão da API:** 2.1.0  
 **Última atualização:** 2025-11-23  
-**Base URL:** `https://simplificagov.com/api`
+**Base URL:** `https://api.simplificagov.com/`
