@@ -336,7 +336,7 @@ php test_sistema_completo.php
 Ou acesse via navegador:
 
 ```
-http://localhost/simplificagov/test_sistema_completo.php
+https://api.simplificagov.com/test_sistema_completo.php
 ```
 
 ### Teste Manual com cURL
