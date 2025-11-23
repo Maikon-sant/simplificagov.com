@@ -1,9 +1,12 @@
-# SimplificaGov API
+<div align="center">
+  <img src="images/logo-full.png" alt="Logo SimplificaGov" width="200" />
+  <h1>SimplificaGov</h1>
+  <p>
+    <b>Democratizando o acesso à informação governamental através da simplificação com IA.</b>
+  </p>
+</div>
 
-API REST para facilitar o acesso e compreensão de projetos de lei, fornecendo informações estruturadas da Câmara dos Deputados e do Senado Federal, com resumos simplificados e materiais de comunicação utilizando inteligência artificial.
-
-Acesse nossa API: api.simplificagov.com
-Acesse o sistema completo: simplificagov.com
+---
 
 ## Índice
 
@@ -17,7 +20,9 @@ Acesse o sistema completo: simplificagov.com
 - [Testes](#testes)
 - [Segurança](#segurança)
 - [Contribuindo](#contribuindo)
+- [Membros da Equipe](#membros-da-equipe)
 - [Licença](#licença)
+
 
 ## Visão Geral
 
@@ -33,6 +38,10 @@ A API SimplificaGov é uma solução completa para democratizar o acesso à info
 - **Preferências de Temas**: Personalização de conteúdo por interesse
 - **Estatísticas**: Dashboards e métricas em tempo real
 - **Integração com IA**: Resumos simplificados e toolkits de comunicação
+
+
+Acesse nossa API: api.simplificagov.com <br>
+Acesse o sistema completo: simplificagov.com
 
 ## Características
 
@@ -336,7 +345,7 @@ php test_sistema_completo.php
 Ou acesse via navegador:
 
 ```
-http://localhost/simplificagov/test_sistema_completo.php
+https://api.simplificagov.com/test_sistema_completo.php
 ```
 
 ### Teste Manual com cURL
@@ -427,27 +436,29 @@ Contribuições são bem-vindas! Por favor:
 - Escreva testes para novas funcionalidades
 - Atualize a documentação quando necessário
 
+## Membros da Equipe
+
+| Nome | Função | GitHub |
+|------|--------|--------|
+| **Maysa Santos** | Tech Lead & Fullstack Dev | [@Maysamkt](https://github.com/Maysamkt) |
+| **Rafaela Rocha Feijó** | Product Manager | [@Rafaelafeijo](https://github.com/Rafaelafeijo) |
+| **Maikon Icaro dos Santos** | AI Engineer | [@Maikon-sant](https://github.com/Maikon-sant) |
+| **Jessica Lopes** | Frontend Developer | [@iamdivaloper](https://github.com/iamdivaloper) |
+
 ## Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
 ## Suporte
 
-Para suporte, abra uma issue no GitHub ou entre em contato através do email: suporte@simplificagov.com
+Para suporte, abra uma issue no GitHub ou entre em contato através do email: maikonicaro04@gmail.com
 
 ## Changelog
 
-### Versão 2.1.0 (2025-11-23)
+### Versão 1.0.0
 
-- Adicionado campo `focus` (JSON) em parlamentares
-- Implementado sistema de leitura de alertas
-- Adicionado cálculo de analytics de parlamentares
-- Implementado extração automática de áreas de foco
-- Melhorado sistema de cache de analytics
-- Adicionado endpoint dedicado para analytics
-
-### Versão 2.0.0 (2024)
-
+- Funcionalidades básicas de leis e cidadãos
+- Integração com APIs da Câmara e Senado
 - Autenticação JWT completa
 - Sistema de favoritos
 - Sistema de alertas
@@ -456,14 +467,17 @@ Para suporte, abra uma issue no GitHub ou entre em contato através do email: su
 - Estatísticas em tempo real
 - Paginação em todos os endpoints
 - Suporte a caracteres UTF-8
+- Adicionado campo `focus` (JSON) em parlamentares
+- Implementado sistema de leitura de alertas
+- Adicionado cálculo de analytics de parlamentares
+- Implementado extração automática de áreas de foco
+- Melhorado sistema de cache de analytics
+- Adicionado endpoint dedicado para analytics
 
-### Versão 1.0.0
-
-- Funcionalidades básicas de leis e cidadãos
-- Integração com APIs da Câmara e Senado
 
 ---
 
-**Versão da API:** 2.1.0  
+**Versão da API:** 1.0.0  
 **Última atualização:** 2025-11-23  
 **Base URL:** `https://api.simplificagov.com/`
+
