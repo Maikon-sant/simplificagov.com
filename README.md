@@ -437,17 +437,10 @@ Para suporte, abra uma issue no GitHub ou entre em contato através do email: su
 
 ## Changelog
 
-### Versão 2.1.0 (2025-11-23)
+### Versão 1.0.0
 
-- Adicionado campo `focus` (JSON) em parlamentares
-- Implementado sistema de leitura de alertas
-- Adicionado cálculo de analytics de parlamentares
-- Implementado extração automática de áreas de foco
-- Melhorado sistema de cache de analytics
-- Adicionado endpoint dedicado para analytics
-
-### Versão 2.0.0 (2024)
-
+- Funcionalidades básicas de leis e cidadãos
+- Integração com APIs da Câmara e Senado
 - Autenticação JWT completa
 - Sistema de favoritos
 - Sistema de alertas
@@ -456,14 +449,16 @@ Para suporte, abra uma issue no GitHub ou entre em contato através do email: su
 - Estatísticas em tempo real
 - Paginação em todos os endpoints
 - Suporte a caracteres UTF-8
+- Adicionado campo `focus` (JSON) em parlamentares
+- Implementado sistema de leitura de alertas
+- Adicionado cálculo de analytics de parlamentares
+- Implementado extração automática de áreas de foco
+- Melhorado sistema de cache de analytics
+- Adicionado endpoint dedicado para analytics
 
-### Versão 1.0.0
-
-- Funcionalidades básicas de leis e cidadãos
-- Integração com APIs da Câmara e Senado
 
 ---
 
-**Versão da API:** 2.1.0  
+**Versão da API:** 1.0.0  
 **Última atualização:** 2025-11-23  
 **Base URL:** `https://api.simplificagov.com/`
