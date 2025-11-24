@@ -636,20 +636,20 @@ https://api.simplificagov.com/test_novas_funcionalidades.php
 #### Resultados Esperados
 
 O teste executa **17 testes** cobrindo:
-- ✅ Estrutura do retorno de `IAService::gerarTraducaoCompleta()`
-- ✅ Estrutura de `cards_visuais` e `auditoria_ia_responsavel` no retorno
-- ✅ Tratamento de texto vazio em `IAService`
-- ✅ Geração de áudio via `IAService::gerarAudioExplicativo()`
-- ✅ Resposta para mensagem vazia em `WhatsAppController::webhook()`
-- ✅ Processamento de texto de lei no webhook
-- ✅ Resposta com media URL no webhook
-- ✅ Geração de TwiML com áudio anexado
-- ✅ Validação de conteúdo da resposta formatada
-- ✅ Fluxo completo: Texto → `IAService` → Áudio → `WhatsAppController`
-- ✅ Formatação da resposta visual com emojis e markdown
-- ✅ Tratamento de erros da IA com fallback
-- ✅ Processamento de textos longos
-- ✅ Performance com múltiplas chamadas sequenciais
+- Estrutura do retorno de `IAService::gerarTraducaoCompleta()`
+- Estrutura de `cards_visuais` e `auditoria_ia_responsavel` no retorno
+- Tratamento de texto vazio em `IAService`
+- Geração de áudio via `IAService::gerarAudioExplicativo()`
+- Resposta para mensagem vazia em `WhatsAppController::webhook()`
+- Processamento de texto de lei no webhook
+- Resposta com media URL no webhook
+- Geração de TwiML com áudio anexado
+- Validação de conteúdo da resposta formatada
+- Fluxo completo: Texto → `IAService` → Áudio → `WhatsAppController`
+- Formatação da resposta visual com emojis e markdown
+- Tratamento de erros da IA com fallback
+- Processamento de textos longos
+- Performance com múltiplas chamadas sequenciais
 
 **Nota:** Alguns testes podem usar fallback quando a chave da API OpenAI não está configurada. O sistema funciona normalmente mesmo sem a chave, usando dados simulados.
 
