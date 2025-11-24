@@ -38,6 +38,7 @@ A API SimplificaGov é uma solução completa para democratizar o acesso à info
 - **Preferências de Temas**: Personalização de conteúdo por interesse
 - **Estatísticas**: Dashboards e métricas em tempo real
 - **Integração com IA**: Resumos simplificados e toolkits de comunicação
+- **WhatsApp Integration**: Webhook do Twilio para receber e responder mensagens, com geração automática de áudio explicativo
 
 
 Acesse nossa API: api.simplificagov.com <br>
@@ -56,6 +57,9 @@ Acesse o sistema completo: simplificagov.com
 - Paginação em todos os endpoints
 - Cache de analytics para melhor performance
 - Suporte completo a UTF-8
+- **Novo**: Integração com WhatsApp via Twilio
+- **Novo**: Geração automática de áudio explicativo (TTS)
+- **Novo**: Tradução completa com IA incluindo cards visuais e auditoria
 
 ## Requisitos
 
@@ -473,6 +477,14 @@ O sistema valida tokens JWT da seguinte forma:
 - `GET /estatisticas/leis` - Estatísticas de leis
 - `GET /estatisticas/cidadaos` - Estatísticas de cidadãos
 
+#### WhatsApp (Webhook Twilio)
+
+- `POST /whatsapp` - Webhook para receber mensagens do Twilio
+  - Recebe mensagens de texto ou links de documentos
+  - Processa com IA para gerar tradução simplificada
+  - Retorna resposta em TwiML com texto formatado e áudio explicativo
+  - Suporta media URLs para processamento de documentos
+
 ### Códigos de Status HTTP
 
 - `200` - Sucesso
@@ -574,7 +586,8 @@ simplificagov/
 ├── database_updates.sql  # Script de atualização do banco
 ├── error_handler.php     # Tratamento de erros
 ├── index.php             # Ponto de entrada
-├── test_sistema_completo.php # Testes automatizados
+├── test_sistema_completo.php # Testes automatizados completos
+├── test_novas_funcionalidades.php # Testes das novas funcionalidades (WhatsApp e IA)
 ├── .htaccess             # Configuração Apache
 └── README.md
 ```
@@ -594,6 +607,50 @@ Ou acesse via navegador:
 ```
 https://api.simplificagov.com/test_sistema_completo.php
 ```
+
+### Teste das Novas Funcionalidades (WhatsApp e IA)
+
+O arquivo `test_novas_funcionalidades.php` testa especificamente as funcionalidades mais recentes do sistema relacionadas ao WhatsApp e integração com IA.
+
+#### Funcionalidades Testadas
+
+- **IAService**: Geração de tradução completa, estrutura de dados, geração de áudio explicativo
+- **WhatsApp Controller**: Webhook do Twilio, processamento de mensagens, geração de TwiML
+- **Integração Completa**: Fluxo completo de texto → IA → áudio → resposta
+- **Validação e Tratamento de Erros**: Tratamento de erros da IA, processamento de textos longos
+- **Performance**: Testes de múltiplas chamadas sequenciais
+
+#### Como Executar
+
+**Via CLI:**
+```bash
+php test_novas_funcionalidades.php
+```
+
+**Via Navegador:**
+```
+https://api.simplificagov.com/test_novas_funcionalidades.php
+```
+
+#### Resultados Esperados
+
+O teste executa **17 testes** cobrindo:
+- ✅ Estrutura do retorno de `gerarTraducaoCompleta()`
+- ✅ Estrutura de `cards_visuais` e `auditoria_ia_responsavel`
+- ✅ Tratamento de texto vazio
+- ✅ Geração de áudio explicativo (TTS)
+- ✅ Resposta para mensagem vazia no WhatsApp
+- ✅ Processamento de texto de lei
+- ✅ Resposta com media URL
+- ✅ Geração de TwiML com áudio
+- ✅ Validação de conteúdo da resposta
+- ✅ Fluxo completo de integração
+- ✅ Formatação da resposta visual
+- ✅ Tratamento de erros
+- ✅ Processamento de textos longos
+- ✅ Performance com múltiplas chamadas
+
+**Nota:** Alguns testes podem usar fallback quando a chave da API OpenAI não está configurada. O sistema funciona normalmente mesmo sem a chave, usando dados simulados.
 
 ### Teste Manual com cURL
 

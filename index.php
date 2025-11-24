@@ -48,7 +48,6 @@ require_once __DIR__ . '/routes/parlamentares.php';
 require_once __DIR__ . '/routes/favoritos.php';
 require_once __DIR__ . '/routes/alertas.php';
 require_once __DIR__ . '/routes/preferencias-temas.php';
-require_once __DIR__ . '/routes/preferencias-temas.php';
 require_once __DIR__ . '/routes/estatisticas.php';
 
 // Rota para WhatsApp Webhook (Twilio)
