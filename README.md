@@ -57,9 +57,9 @@ Acesse o sistema completo: simplificagov.com
 - Paginação em todos os endpoints
 - Cache de analytics para melhor performance
 - Suporte completo a UTF-8
-- **Novo**: Integração com WhatsApp via Twilio
-- **Novo**: Geração automática de áudio explicativo (TTS)
-- **Novo**: Tradução completa com IA incluindo cards visuais e auditoria
+- Integração com WhatsApp via Twilio (Webhook)
+- Geração automática de áudio explicativo (TTS) via OpenAI
+- Tradução completa com IA incluindo cards visuais e auditoria de complexidade
 
 ## Requisitos
 
@@ -587,7 +587,7 @@ simplificagov/
 ├── error_handler.php     # Tratamento de erros
 ├── index.php             # Ponto de entrada
 ├── test_sistema_completo.php # Testes automatizados completos
-├── test_novas_funcionalidades.php # Testes das novas funcionalidades (WhatsApp e IA)
+├── test_novas_funcionalidades.php # Testes de integração WhatsApp e IA
 ├── .htaccess             # Configuração Apache
 └── README.md
 ```
@@ -608,15 +608,16 @@ Ou acesse via navegador:
 https://api.simplificagov.com/test_sistema_completo.php
 ```
 
-### Teste das Novas Funcionalidades (WhatsApp e IA)
+### Teste de Integração WhatsApp e IA
 
-O arquivo `test_novas_funcionalidades.php` testa especificamente as funcionalidades mais recentes do sistema relacionadas ao WhatsApp e integração com IA.
+O arquivo `test_novas_funcionalidades.php` testa as funcionalidades de integração com WhatsApp e processamento com IA do sistema.
 
-#### Funcionalidades Testadas
+#### Componentes Testados
 
-- **IAService**: Geração de tradução completa, estrutura de dados, geração de áudio explicativo
-- **WhatsApp Controller**: Webhook do Twilio, processamento de mensagens, geração de TwiML
-- **Integração Completa**: Fluxo completo de texto → IA → áudio → resposta
+- **IAService::gerarTraducaoCompleta()**: Geração de tradução completa com estrutura de dados, cards visuais e auditoria
+- **IAService::gerarAudioExplicativo()**: Geração de áudio explicativo (TTS) a partir de roteiro
+- **WhatsAppController::webhook()**: Webhook do Twilio, processamento de mensagens, geração de TwiML
+- **Fluxo de Integração**: Processamento completo de texto → análise IA → geração de áudio → resposta formatada
 - **Validação e Tratamento de Erros**: Tratamento de erros da IA, processamento de textos longos
 - **Performance**: Testes de múltiplas chamadas sequenciais
 
@@ -635,20 +636,20 @@ https://api.simplificagov.com/test_novas_funcionalidades.php
 #### Resultados Esperados
 
 O teste executa **17 testes** cobrindo:
-- ✅ Estrutura do retorno de `gerarTraducaoCompleta()`
-- ✅ Estrutura de `cards_visuais` e `auditoria_ia_responsavel`
-- ✅ Tratamento de texto vazio
-- ✅ Geração de áudio explicativo (TTS)
-- ✅ Resposta para mensagem vazia no WhatsApp
-- ✅ Processamento de texto de lei
-- ✅ Resposta com media URL
-- ✅ Geração de TwiML com áudio
-- ✅ Validação de conteúdo da resposta
-- ✅ Fluxo completo de integração
-- ✅ Formatação da resposta visual
-- ✅ Tratamento de erros
+- ✅ Estrutura do retorno de `IAService::gerarTraducaoCompleta()`
+- ✅ Estrutura de `cards_visuais` e `auditoria_ia_responsavel` no retorno
+- ✅ Tratamento de texto vazio em `IAService`
+- ✅ Geração de áudio via `IAService::gerarAudioExplicativo()`
+- ✅ Resposta para mensagem vazia em `WhatsAppController::webhook()`
+- ✅ Processamento de texto de lei no webhook
+- ✅ Resposta com media URL no webhook
+- ✅ Geração de TwiML com áudio anexado
+- ✅ Validação de conteúdo da resposta formatada
+- ✅ Fluxo completo: Texto → `IAService` → Áudio → `WhatsAppController`
+- ✅ Formatação da resposta visual com emojis e markdown
+- ✅ Tratamento de erros da IA com fallback
 - ✅ Processamento de textos longos
-- ✅ Performance com múltiplas chamadas
+- ✅ Performance com múltiplas chamadas sequenciais
 
 **Nota:** Alguns testes podem usar fallback quando a chave da API OpenAI não está configurada. O sistema funciona normalmente mesmo sem a chave, usando dados simulados.
 
