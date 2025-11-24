@@ -48,7 +48,14 @@ require_once __DIR__ . '/routes/parlamentares.php';
 require_once __DIR__ . '/routes/favoritos.php';
 require_once __DIR__ . '/routes/alertas.php';
 require_once __DIR__ . '/routes/preferencias-temas.php';
+require_once __DIR__ . '/routes/preferencias-temas.php';
 require_once __DIR__ . '/routes/estatisticas.php';
+
+// Rota para WhatsApp Webhook (Twilio)
+$router->post('/whatsapp', function () {
+    $controller = new WhatsAppController();
+    $controller->webhook();
+});
 
 // Rota default para /
 $router->get('/', function () {
@@ -82,6 +89,6 @@ try {
     response([
         'success' => false,
         'message' => 'Erro interno no servidor',
-        'error'   => $e->getMessage()
+        'error' => $e->getMessage()
     ], 500);
 }
