@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="images/logo-full.png" alt="Logo SimplificaGov" width="200" />
+  <img src="https://raw.githubusercontent.com/Maikon-sant/simplificagov.com/main/images/logo-full.png" alt="Logo SimplificaGov" width="200" />
   <h1>SimplificaGov</h1>
   <p>
     <b>Democratizando o acesso à informação governamental através da simplificação com IA.</b>
